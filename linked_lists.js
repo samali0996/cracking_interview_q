@@ -127,9 +127,29 @@ function partition(x, head) {
     return lHead
 }
 
+function reverseList(head) {
+    var stack = []
+    var n = head
+    while (n) {
+        stack.push(n.data)
+        n = n.next
+    }
+    console.log(stack)
+    n = head
+    while (n) {
+        n.data = stack.pop()
+        n = n.next
+    }
+    return head
+}
+
 function sumLists(number1List, number2List) {
+
     var sumList = null
     var carry = false
+    number1List = reverseList(number1List)
+
+    number2List = reverseList(number2List)
     while (number1List || number2List) {
         var number1 = number1List ? number1List.data : 0
         var number2 = number2List ? number2List.data : 0
@@ -153,6 +173,7 @@ function sumLists(number1List, number2List) {
     if (carry) {
         sumList.appendToTail(1)
     }
+    sumList = reverseList(sumList)
     sumList.printLinkedList()
 }
 
@@ -163,7 +184,7 @@ head.appendToTail(2);
 head.appendToTail(5);
 head.appendToTail(2);
 head.appendToTail(3);
-head.printLinkedList();
+// head.printLinkedList();
 // remAllDeps(head)
 // remDepsNoHash(head)
 // var k = kToLast(6, head)
