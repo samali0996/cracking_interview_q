@@ -86,22 +86,74 @@ function delMiddleNode(n) {
 }
 
 function partition(x, head) {
-  var lh = (ln = uh = un = n = null);
-  var n = head;
-  while (n.next !== null) {
-    if (n.data < x) {
-      // console.log(n.data)
-      if (lh === null) {
-        lh = new Node(n.data);
-        ln = lh.next;
-      } else {
-        ln = new Node(n.data);
-        ln = ln.next;
-      }
+    var lPointer = head
+    var lHead
+    while(lPointer !== null && lPointer.data >= x) {
+        lPointer = lPointer.next
     }
-    n = n.next;
-  }
-  lh.printLinkedList();
+    if (lPointer !== null) {
+        lHead = new Node(lPointer.data)
+        while (lPointer.next !== null) {
+            lPointer = lPointer.next
+            if (lPointer.data < x) {
+                lHead.appendToTail(lPointer.data)
+            }
+        }
+    }
+    var uPointer = head
+    var uHead
+    while (uPointer !== null && uPointer.data < x) {
+        uPointer = uPointer.next
+    }
+    if (uPointer !== null) {
+        uHead = new Node(uPointer.data)
+        while (uPointer.next !== null) {
+            uPointer = uPointer.next
+            if (uPointer.data >= x) {
+                uHead.appendToTail(uPointer.data)
+            }
+        }
+    }
+    // append uHead to end of lHead
+    if (lHead) {
+        var pointer = lHead
+        while (pointer.next !== null) {
+            pointer = pointer.next
+        }
+        pointer.next = uHead
+    } else {
+        lHead = uHead
+    }
+    return lHead
+}
+
+function sumLists(number1List, number2List) {
+    var sumList = null
+    var carry = false
+    while (number1List || number2List) {
+        var number1 = number1List ? number1List.data : 0
+        var number2 = number2List ? number2List.data : 0
+        var sum = number1 + number2
+        if (carry) {
+            sum += 1
+            carry = false
+        }
+        if (sum >= 10) {
+            carry = true
+            sum = sum % 10
+        }
+        if (!sumList) {
+            sumList = new Node(sum)
+        } else {
+            sumList.appendToTail(sum)
+        }
+        number1List = number1List ? number1List.next : null
+        number2List = number2List ? number2List.next : null
+    }
+    if (carry) {
+        sumList.appendToTail(1)
+    }
+    sumList.printLinkedList()
 }
 
 var head = new Node(2);
@@ -116,5 +168,12 @@ head.printLinkedList();
 // remDepsNoHash(head)
 // var k = kToLast(6, head)
 // delMiddleNode(k)
-partition(3, head);
-head.printLinkedList();
+// partition(4, head).printLinkedList();
+var number1 = new Node(7)
+number1.appendToTail(1)
+number1.appendToTail(6)
+var number2 = new Node(5)
+number2.appendToTail(9)
+number2.appendToTail(6)
+sumLists(number1, number2)
+// head.printLinkedList();

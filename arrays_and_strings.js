@@ -98,8 +98,25 @@ function oneAway(word, editedWord) {
   return isOneAway;
 }
 
+function twoSum(numbers, target) {
+    var uPointer = numbers.length - 1
+    var lPointer = 0
+    var lValue
+    var uValue
+    while (uPointer > lPointer) {
+        uValue = numbers[uPointer]
+        lValue = numbers[lPointer]
+        var sum = uValue + lValue
+        if (sum < target) lPointer += 1
+        else if (sum > target) uPointer -= 1
+        else return ([lPointer, uPointer])
+    }
+    return -1
+}
+
 /* console.log(isUnique('hh')) */
 /* console.log(checkPermutation('hello', 'elloh')) */
 /* console.log(URLify('Mr John Smith    ')) */
 // console.log(palPerm('areare'))
-console.log(oneAway('v', 'ba'));
+// console.log(oneAway('v', 'ba'));
+console.log(twoSum([2,3,5,6,9], 8))
